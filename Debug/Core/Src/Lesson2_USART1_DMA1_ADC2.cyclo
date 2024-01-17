@@ -1,0 +1,10 @@
+core_cm3.h:1511:22:__NVIC_EnableIRQ	2
+Lesson2_USART1_DMA1_ADC2.c:22:6:USART1_IRQHandler	4
+Lesson2_USART1_DMA1_ADC2.c:33:6:init_USART1	1
+Lesson2_USART1_DMA1_ADC2.c:67:6:init_DMA1_USART1	1
+Lesson2_USART1_DMA1_ADC2.c:76:6:send_String_DMA1	1
+Lesson2_USART1_DMA1_ADC2.c:86:6:txStr	4
+Lesson2_USART1_DMA1_ADC2.c:98:6:ExecuteCommand	12
+Lesson2_USART1_DMA1_ADC2.c:176:6:Delay	2
+Lesson2_USART1_DMA1_ADC2.c:181:6:init_ADC2	2
+Lesson2_USART1_DMA1_ADC2.c:208:10:channel_Adc_Convert	3

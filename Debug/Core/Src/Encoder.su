@@ -1,0 +1,2 @@
+../Core/Src/Encoder.c:7:6:EncoderInit	4	static
+../Core/Src/Encoder.c:49:6:EncoderCounter	16	static
