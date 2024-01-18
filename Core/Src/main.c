@@ -555,10 +555,13 @@ void StartLed1_Task(void *argument)
 void StartLed2_Task(void *argument)
 {
   /* USER CODE BEGIN StartLed2_Task */
+	QUEUE_t msg;
   /* Infinite loop */
   for(;;)
   {
 	  HAL_GPIO_TogglePin(Led2_GPIO_Port, Led2_Pin);
+	  strcpy(msg.Buf,"Led2 blink with delay 100mc\r\n\0");
+	  osMessageQueuePut(Uart_QueueHandle, &msg,0 , osWaitForever);				//Отправляем строку в очередь
 	  osDelay(100);
   }
   /* USER CODE END StartLed2_Task */
@@ -574,12 +577,15 @@ void StartLed2_Task(void *argument)
 void StartReadBtn_Task(void *argument)
 {
   /* USER CODE BEGIN StartReadBtn_Task */
+	QUEUE_t message;
   /* Infinite loop */
   for(;;)
   {
 	if(HAL_GPIO_ReadPin(Btn_GPIO_Port, Btn_Pin))
 		{
 			osSemaphoreRelease(BtnSemHandle); //Даем семафору 1
+			strcpy(message.Buf, "Btn presses\r\n\0"); //
+			osMessageQueuePut(Uart_QueueHandle, &message,0 , osWaitForever);		//Отправляем строку в очередь
 		}
     osDelay(100);
   }
@@ -602,10 +608,8 @@ void StartLed3_Task(void *argument)
 	if(osSemaphoreAcquire(BtnSemHandle, osWaitForever) == osOK) // osWaitForever -  бесконечное ожидание
 		{
 		HAL_GPIO_TogglePin(Led3_GPIO_Port, Led3_Pin);
-		osDelay(4000);
-		HAL_GPIO_WritePin(GPIOA, Led3_Pin, GPIO_PIN_RESET);
 		}
-    osDelay(100);
+    osDelay(1000);
   }
   /* USER CODE END StartLed3_Task */
 }
@@ -620,11 +624,25 @@ void StartLed3_Task(void *argument)
 void StartADC_Task(void *argument)
 {
   /* USER CODE BEGIN StartADC_Task */
+	QUEUE_t adc_msg;
   /* Infinite loop */
   for(;;)
   {
 	uint16_t adc_res = HAL_ADC_GetValue(&hadc1); 			// записывае значение с АЦП
 	__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_3,adc_res);	// передаем значение adc_res в модуль ШИМ (Таймер 2, канал 3)
+
+	if(adc_res == 0)
+		{
+			strcpy(adc_msg.Buf, "Value ADC = 0\r\n\0");
+			osMessageQueuePut(Uart_QueueHandle, &adc_msg,0 , osWaitForever);//Отправляем строку в очередь
+			osDelay(200);
+		}
+	else if(adc_res >= 4000)
+		{
+			strcpy(adc_msg.Buf, "Value ADC is max\r\n\0");
+			osMessageQueuePut(Uart_QueueHandle, &adc_msg,0 , osWaitForever);//Отправляем строку в очередь
+			osDelay(200);
+		}
     osDelay(100);
   }
   /* USER CODE END StartADC_Task */
@@ -640,9 +658,12 @@ void StartADC_Task(void *argument)
 void StartUART_Task(void *argument)
 {
   /* USER CODE BEGIN StartUART_Task */
+	QUEUE_t message;
   /* Infinite loop */
   for(;;)
   {
+	osMessageQueueGet(Uart_QueueHandle, &message, 0 , osWaitForever);	//
+	HAL_UART_Transmit(&huart1, (uint8_t*)message.Buf, strlen(message.Buf), osWaitForever);//Отправляем полученные данные по UART
     osDelay(1);
   }
   /* USER CODE END StartUART_Task */

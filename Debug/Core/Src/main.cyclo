@@ -7,9 +7,9 @@ main.c:476:13:MX_GPIO_Init	1
 main.c:518:6:StartDefaultTask	1
 main.c:536:6:StartLed1_Task	1
 main.c:555:6:StartLed2_Task	1
-main.c:574:6:StartReadBtn_Task	2
-main.c:596:6:StartLed3_Task	2
-main.c:620:6:StartADC_Task	1
-main.c:640:6:StartUART_Task	1
-main.c:659:6:HAL_TIM_PeriodElapsedCallback	2
-main.c:676:6:Error_Handler	1
+main.c:577:6:StartReadBtn_Task	2
+main.c:602:6:StartLed3_Task	2
+main.c:624:6:StartADC_Task	3
+main.c:658:6:StartUART_Task	1
+main.c:680:6:HAL_TIM_PeriodElapsedCallback	2
+main.c:697:6:Error_Handler	1

@@ -6,10 +6,10 @@
 ../Core/Src/main.c:476:13:MX_GPIO_Init	40	static
 ../Core/Src/main.c:518:6:StartDefaultTask	16	static
 ../Core/Src/main.c:536:6:StartLed1_Task	16	static
-../Core/Src/main.c:555:6:StartLed2_Task	16	static
-../Core/Src/main.c:574:6:StartReadBtn_Task	16	static
-../Core/Src/main.c:596:6:StartLed3_Task	16	static
-../Core/Src/main.c:620:6:StartADC_Task	24	static
-../Core/Src/main.c:640:6:StartUART_Task	16	static
-../Core/Src/main.c:659:6:HAL_TIM_PeriodElapsedCallback	16	static
-../Core/Src/main.c:676:6:Error_Handler	4	static,ignoring_inline_asm
+../Core/Src/main.c:555:6:StartLed2_Task	152	static
+../Core/Src/main.c:577:6:StartReadBtn_Task	152	static
+../Core/Src/main.c:602:6:StartLed3_Task	16	static
+../Core/Src/main.c:624:6:StartADC_Task	160	static
+../Core/Src/main.c:658:6:StartUART_Task	144	static
+../Core/Src/main.c:680:6:HAL_TIM_PeriodElapsedCallback	16	static
+../Core/Src/main.c:697:6:Error_Handler	4	static,ignoring_inline_asm
