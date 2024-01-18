@@ -22,7 +22,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "string.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -231,7 +231,7 @@ int main(void)
 
   /* Create the semaphores(s) */
   /* creation of BtnSem */
-  BtnSemHandle = osSemaphoreNew(1, 1, &BtnSem_attributes);
+  BtnSemHandle = osSemaphoreNew(1, 0, &BtnSem_attributes);
 
   /* USER CODE BEGIN RTOS_SEMAPHORES */
   /* add semaphores, ... */
@@ -405,7 +405,7 @@ static void MX_TIM2_Init(void)
 
   /* USER CODE END TIM2_Init 1 */
   htim2.Instance = TIM2;
-  htim2.Init.Prescaler = 0;
+  htim2.Init.Prescaler = 300;
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim2.Init.Period = 4095;
   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
@@ -539,7 +539,8 @@ void StartLed1_Task(void *argument)
   /* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+	HAL_GPIO_TogglePin(Led1_GPIO_Port, Led1_Pin);
+    osDelay(100);
   }
   /* USER CODE END StartLed1_Task */
 }
@@ -557,7 +558,8 @@ void StartLed2_Task(void *argument)
   /* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+	  HAL_GPIO_TogglePin(Led2_GPIO_Port, Led2_Pin);
+	  osDelay(100);
   }
   /* USER CODE END StartLed2_Task */
 }
@@ -575,7 +577,11 @@ void StartReadBtn_Task(void *argument)
   /* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+	if(HAL_GPIO_ReadPin(Btn_GPIO_Port, Btn_Pin))
+		{
+			osSemaphoreRelease(BtnSemHandle); //Даем семафору 1
+		}
+    osDelay(100);
   }
   /* USER CODE END StartReadBtn_Task */
 }
@@ -593,7 +599,13 @@ void StartLed3_Task(void *argument)
   /* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+	if(osSemaphoreAcquire(BtnSemHandle, osWaitForever) == osOK) // osWaitForever -  бесконечное ожидание
+		{
+		HAL_GPIO_TogglePin(Led3_GPIO_Port, Led3_Pin);
+		osDelay(4000);
+		HAL_GPIO_WritePin(GPIOA, Led3_Pin, GPIO_PIN_RESET);
+		}
+    osDelay(100);
   }
   /* USER CODE END StartLed3_Task */
 }
@@ -611,7 +623,9 @@ void StartADC_Task(void *argument)
   /* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+	uint16_t adc_res = HAL_ADC_GetValue(&hadc1); 			// записывае значение с АЦП
+	__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_3,adc_res);	// передаем значение adc_res в модуль ШИМ (Таймер 2, канал 3)
+    osDelay(100);
   }
   /* USER CODE END StartADC_Task */
 }
