@@ -67,40 +67,52 @@ const osThreadAttr_t defaultTask_attributes = {
   .stack_size = sizeof(defaultTaskBuffer),
   .priority = (osPriority_t) osPriorityNormal,
 };
-/* Definitions for Led1Task */
-osThreadId_t Led1TaskHandle;
-uint32_t Led1TaskBuffer[ 128 ];
-osStaticThreadDef_t Led1TaskControlBlock;
-const osThreadAttr_t Led1Task_attributes = {
-  .name = "Led1Task",
-  .cb_mem = &Led1TaskControlBlock,
-  .cb_size = sizeof(Led1TaskControlBlock),
-  .stack_mem = &Led1TaskBuffer[0],
-  .stack_size = sizeof(Led1TaskBuffer),
+/* Definitions for Led1_Task */
+osThreadId_t Led1_TaskHandle;
+uint32_t Led1_TaskBuffer[ 128 ];
+osStaticThreadDef_t Led1_TaskControlBlock;
+const osThreadAttr_t Led1_Task_attributes = {
+  .name = "Led1_Task",
+  .cb_mem = &Led1_TaskControlBlock,
+  .cb_size = sizeof(Led1_TaskControlBlock),
+  .stack_mem = &Led1_TaskBuffer[0],
+  .stack_size = sizeof(Led1_TaskBuffer),
   .priority = (osPriority_t) osPriorityLow,
 };
-/* Definitions for Led3Task */
-osThreadId_t Led3TaskHandle;
-uint32_t Led2TaskBuffer[ 128 ];
-osStaticThreadDef_t Led2TaskControlBlock;
-const osThreadAttr_t Led3Task_attributes = {
-  .name = "Led3Task",
-  .cb_mem = &Led2TaskControlBlock,
-  .cb_size = sizeof(Led2TaskControlBlock),
-  .stack_mem = &Led2TaskBuffer[0],
-  .stack_size = sizeof(Led2TaskBuffer),
+/* Definitions for Led2_Task */
+osThreadId_t Led2_TaskHandle;
+uint32_t Led2_TaskBuffer[ 128 ];
+osStaticThreadDef_t Led2_TaskControlBlock;
+const osThreadAttr_t Led2_Task_attributes = {
+  .name = "Led2_Task",
+  .cb_mem = &Led2_TaskControlBlock,
+  .cb_size = sizeof(Led2_TaskControlBlock),
+  .stack_mem = &Led2_TaskBuffer[0],
+  .stack_size = sizeof(Led2_TaskBuffer),
   .priority = (osPriority_t) osPriorityLow,
 };
-/* Definitions for ReadBtnTask */
-osThreadId_t ReadBtnTaskHandle;
-uint32_t ReadBtnTaskBuffer[ 128 ];
-osStaticThreadDef_t ReadBtnTaskControlBlock;
-const osThreadAttr_t ReadBtnTask_attributes = {
-  .name = "ReadBtnTask",
-  .cb_mem = &ReadBtnTaskControlBlock,
-  .cb_size = sizeof(ReadBtnTaskControlBlock),
-  .stack_mem = &ReadBtnTaskBuffer[0],
-  .stack_size = sizeof(ReadBtnTaskBuffer),
+/* Definitions for ReadBtn_Task */
+osThreadId_t ReadBtn_TaskHandle;
+uint32_t ReadBtn_TaskBuffer[ 128 ];
+osStaticThreadDef_t ReadBtn_TaskControlBlock;
+const osThreadAttr_t ReadBtn_Task_attributes = {
+  .name = "ReadBtn_Task",
+  .cb_mem = &ReadBtn_TaskControlBlock,
+  .cb_size = sizeof(ReadBtn_TaskControlBlock),
+  .stack_mem = &ReadBtn_TaskBuffer[0],
+  .stack_size = sizeof(ReadBtn_TaskBuffer),
+  .priority = (osPriority_t) osPriorityLow,
+};
+/* Definitions for Led3_Task */
+osThreadId_t Led3_TaskHandle;
+uint32_t Led3_TaskBuffer[ 128 ];
+osStaticThreadDef_t Led3_TaskControlBlock;
+const osThreadAttr_t Led3_Task_attributes = {
+  .name = "Led3_Task",
+  .cb_mem = &Led3_TaskControlBlock,
+  .cb_size = sizeof(Led3_TaskControlBlock),
+  .stack_mem = &Led3_TaskBuffer[0],
+  .stack_size = sizeof(Led3_TaskBuffer),
   .priority = (osPriority_t) osPriorityLow,
 };
 /* Definitions for ADC_Task */
@@ -157,9 +169,10 @@ static void MX_TIM2_Init(void);
 static void MX_USART1_UART_Init(void);
 static void MX_ADC1_Init(void);
 void StartDefaultTask(void *argument);
-void StartLed1Task(void *argument);
-void StartLed3Task(void *argument);
-void StartReadBtnTask(void *argument);
+void StartLed1_Task(void *argument);
+void StartLed2_Task(void *argument);
+void StartReadBtn_Task(void *argument);
+void StartLed3_Task(void *argument);
 void StartADC_Task(void *argument);
 void StartUART_Task(void *argument);
 
@@ -240,14 +253,17 @@ int main(void)
   /* creation of defaultTask */
   defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
 
-  /* creation of Led1Task */
-  Led1TaskHandle = osThreadNew(StartLed1Task, NULL, &Led1Task_attributes);
+  /* creation of Led1_Task */
+  Led1_TaskHandle = osThreadNew(StartLed1_Task, NULL, &Led1_Task_attributes);
 
-  /* creation of Led3Task */
-  Led3TaskHandle = osThreadNew(StartLed3Task, NULL, &Led3Task_attributes);
+  /* creation of Led2_Task */
+  Led2_TaskHandle = osThreadNew(StartLed2_Task, NULL, &Led2_Task_attributes);
 
-  /* creation of ReadBtnTask */
-  ReadBtnTaskHandle = osThreadNew(StartReadBtnTask, NULL, &ReadBtnTask_attributes);
+  /* creation of ReadBtn_Task */
+  ReadBtn_TaskHandle = osThreadNew(StartReadBtn_Task, NULL, &ReadBtn_Task_attributes);
+
+  /* creation of Led3_Task */
+  Led3_TaskHandle = osThreadNew(StartLed3_Task, NULL, &Led3_Task_attributes);
 
   /* creation of ADC_Task */
   ADC_TaskHandle = osThreadNew(StartADC_Task, NULL, &ADC_Task_attributes);
@@ -510,58 +526,76 @@ void StartDefaultTask(void *argument)
   /* USER CODE END 5 */
 }
 
-/* USER CODE BEGIN Header_StartLed1Task */
+/* USER CODE BEGIN Header_StartLed1_Task */
 /**
-* @brief Function implementing the Led1Task thread.
+* @brief Function implementing the Led1_Task thread.
 * @param argument: Not used
 * @retval None
 */
-/* USER CODE END Header_StartLed1Task */
-void StartLed1Task(void *argument)
+/* USER CODE END Header_StartLed1_Task */
+void StartLed1_Task(void *argument)
 {
-  /* USER CODE BEGIN StartLed1Task */
+  /* USER CODE BEGIN StartLed1_Task */
   /* Infinite loop */
   for(;;)
   {
     osDelay(1);
   }
-  /* USER CODE END StartLed1Task */
+  /* USER CODE END StartLed1_Task */
 }
 
-/* USER CODE BEGIN Header_StartLed3Task */
+/* USER CODE BEGIN Header_StartLed2_Task */
 /**
-* @brief Function implementing the Led3Task thread.
+* @brief Function implementing the Led2_Task thread.
 * @param argument: Not used
 * @retval None
 */
-/* USER CODE END Header_StartLed3Task */
-void StartLed3Task(void *argument)
+/* USER CODE END Header_StartLed2_Task */
+void StartLed2_Task(void *argument)
 {
-  /* USER CODE BEGIN StartLed3Task */
+  /* USER CODE BEGIN StartLed2_Task */
   /* Infinite loop */
   for(;;)
   {
     osDelay(1);
   }
-  /* USER CODE END StartLed3Task */
+  /* USER CODE END StartLed2_Task */
 }
 
-/* USER CODE BEGIN Header_StartReadBtnTask */
+/* USER CODE BEGIN Header_StartReadBtn_Task */
 /**
-* @brief Function implementing the ReadBtnTask thread.
+* @brief Function implementing the ReadBtn_Task thread.
 * @param argument: Not used
 * @retval None
 */
-/* USER CODE END Header_StartReadBtnTask */
-void StartReadBtnTask(void *argument)
+/* USER CODE END Header_StartReadBtn_Task */
+void StartReadBtn_Task(void *argument)
 {
-  /* USER CODE BEGIN StartReadBtnTask */
+  /* USER CODE BEGIN StartReadBtn_Task */
   /* Infinite loop */
   for(;;)
   {
     osDelay(1);
   }
-  /* USER CODE END StartReadBtnTask */
+  /* USER CODE END StartReadBtn_Task */
+}
+
+/* USER CODE BEGIN Header_StartLed3_Task */
+/**
+* @brief Function implementing the Led3_Task thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_StartLed3_Task */
+void StartLed3_Task(void *argument)
+{
+  /* USER CODE BEGIN StartLed3_Task */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END StartLed3_Task */
 }
 
 /* USER CODE BEGIN Header_StartADC_Task */
